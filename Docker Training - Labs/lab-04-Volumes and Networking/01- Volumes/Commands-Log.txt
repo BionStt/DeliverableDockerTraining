@@ -1,0 +1,85 @@
+
+Understanding tmpfs mounts
+============================
+
+$ docker pull nginx
+$ docker run -it --name=webApp -d -p 80:80 nginx
+Browse localhost:8080
+
+docker exec -it webApp bash
+// cd to welcome page and edit it
+cd /usr/share/nginx/html
+echo "I changed this file while running the conatiner" > index.html
+Browse localhost:8080
+
+docker run -it --name=webApp2 -d -p 80:80 nginx
+Browse localhost:8080
+
+Working with Data Volumes
+=========================
+
+$ docker volume create devops_volume
+$ docker volume ls
+$ docker volume inspect devops_volume
+
+$ docker container create --name myBusyBox1 -it --mount source=devops_volume,target=/app busybox
+$ docker container start myBusyBox1
+
+Copying files between containers
+$ docker container run --name myBusyBox2 -dit --mount source=devops_volume,target=/app busybox
+
+$ docker exec -it myBusyBox1 sh
+
+$ cd /app
+$ mkdir devops
+
+$ docker container cp index.html myBusyBox1:/app/Devops
+
+$ docker exec -it myBusyBox2 sh
+
+$ docker volume inspect devops_volume
+
+$ cd /var/lib/docker/volumes/devops_volume/_data
+
+
+# Deleting volumes
+
+$ docker volume rm devops_volume
+
+$ docker rm –f $(docker ps -aq)
+
+$ docker volume rm devops_volume
+
+$ docker volume create volume1
+$ docker volume create volume2
+$ docker volume create volume3
+$ docker volume ls
+$ docker volume prune
+
+Working with Host Volumes (Bind mounts)
+=====================================
+mkdir C:\tmp
+cd tmp
+mkdir container-data
+
+docker run -dit -P --name ubuntu-test -v C:\tmp\container-data:/data ubuntu:18.04
+
+docker ps -a  (Identifier le ID du container)
+
+docker attach ID
+
+$touch /data/test
+ 
+dir C:\tmp\container-data
+
+Database volumes (with a bind mount)
+====================================
+
+docker run --name mysql-test -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=passwd -d mysql:latest
+
+docker exec -it ID /bin/bash
+
+ls /var/lib/mysql
+
+cd c:\tmp\mysql-data
+dir

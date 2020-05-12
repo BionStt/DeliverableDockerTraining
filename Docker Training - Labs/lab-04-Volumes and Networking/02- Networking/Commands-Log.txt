@@ -1,0 +1,40 @@
+docker network ls
+
+docker run -it -d --name c1 alpine sh
+docker run -it -d --name c2 alpine sh
+
+
+docker exec -it c1 sh –c "ip a"
+
+docker exec -it c2 sh –c  "ip a"
+
+docker attach c1
+
+ping –c 2 172.17.0.7
+
+docker network inspect bridge
+
+docker network create my_net
+
+docker run -it -d --name B1 --network my_net alpine ash
+docker run -it -d --name B2 --network my_net alpine ash
+docker run -it -d --name B3 --network my_net alpine ash
+
+docker container attach B1
+ping -c 5 B2
+
+
+Connecting a Container to a Network
+======================================
+
+docker network create --subnet 192.168.200.0/24 -o "com.docker.network.bridge.name = br-test " test1
+
+docker run -it --network test1 --name ctest alpine sh
+
+docker network create test2
+docker network connect test2 ctest
+
+docker network rm test1 test2
+
+docker stop ctest && docker rm ctest
+docker network rm test1 test2

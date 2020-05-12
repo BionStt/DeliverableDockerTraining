@@ -1,0 +1,40 @@
+version: '3'
+services:
+   my-mysql-service:
+      image: mysql:8.0      
+      restart: always
+      environment:
+        MYSQL_DATABASE: 
+        MYSQL_USER: 
+        MYSQL_PASSWORD: 
+        MYSQL_ROOT_PASSWORD: 
+      ports:       
+        - '33066:3306'
+      networks:
+        - backend-network
+    
+   my-spring-service:
+      build:
+        context: backend-springboot-mysql
+        dockerfile: Dockerfile
+      ports:
+        - '8080:8080'
+      networks:
+        - backend-network
+        - frontend-network  
+      depends_on:
+        - my-mysql-service
+  
+   my-angular:
+      build:
+        context: frontend-angular
+        dockerfile: Dockerfile
+      ports: 
+        - '4200:80'
+      depends_on:
+        - my-spring-service
+      networks:
+        - frontend-network       
+networks:
+  backend-network:
+  frontend-network:

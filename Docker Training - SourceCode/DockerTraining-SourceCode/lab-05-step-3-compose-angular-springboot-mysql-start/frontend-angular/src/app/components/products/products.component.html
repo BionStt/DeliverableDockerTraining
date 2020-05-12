@@ -1,0 +1,20 @@
+
+<div class="card">
+  <div class="card-header bg-info text-white mt-1">
+    <h4>Products catalogue</h4>
+  </div>
+  </div>
+  <div class="row">
+  <div class="card align-items-center"
+       style="width:300px; margin: 10px"
+        *ngFor='let product of allProducts' >
+        <div class="card-header " style="width:300px">
+          <h4 class="card-title text-center">{{ product.name }}</h4>
+        </div>
+         <div class="card-body text-center">
+         <h2 class="card-text text-danger">{{ product.unitPrice |
+                        currency:'EUR':'symbol':'1.2-2'}}</h2>
+          </div>
+
+</div>
+
