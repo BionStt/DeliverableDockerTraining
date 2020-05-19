@@ -1,8 +1,6 @@
 # STAGE 1 - Build Stage for Spring boot application image
 FROM openjdk:8-jdk-alpine as build
 
-LABEL maintainer="me@someserver.be"
-
 WORKDIR /workspace/app
 
 COPY mvnw .

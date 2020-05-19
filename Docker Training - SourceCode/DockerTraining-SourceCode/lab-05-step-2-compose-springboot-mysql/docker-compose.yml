@@ -22,7 +22,9 @@ services:
       networks:
         - spring-boot-mysql-network
       depends_on:
-         - my-mysql-service
+        - my-mysql-service
+      environment:
+         WAIT_HOSTS: my-mysql-service:3306
              
 networks:
   spring-boot-mysql-network:

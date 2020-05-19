@@ -20,10 +20,12 @@ services:
       ports:
         - '8080:8080'
       networks:
-        - backend-network
+        - backend-network 
         - frontend-network  
       depends_on:
         - my-mysql-service
+      environment:
+        WAIT_HOSTS: my-mysql-service:3306
   
    my-angular:
       build:

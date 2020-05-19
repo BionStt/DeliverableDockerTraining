@@ -1,0 +1,20 @@
+version: '3'
+services:
+    my-myql-service:
+      image: mysql:8.0
+      restart: always
+      environment:
+          MYSQL_DATABASE: ${DB_NAME}       
+          MYSQL_USER:     
+          MYSQL_PASSWORD:      
+          MYSQL_ROOT_PASSWORD: 
+      ports:     
+        - '33066:3306'
+      expose:
+        - '3306'
+        # Where our data will be persisted
+      volumes:
+        - my-db:/var/lib/mysql
+ 
+volumes: 
+    my-db:

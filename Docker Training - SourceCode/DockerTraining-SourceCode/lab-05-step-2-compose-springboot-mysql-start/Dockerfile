@@ -22,5 +22,9 @@ ARG DEPENDENCY=/workspace/app/target/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-# Run the Spring boot application
-ENTRYPOINT ["java","-cp","app:app/lib/*","be.businesstraining.ApplicationWithDb"]
+## Add the wait script to the image
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
+
+# Wait for the readiness of mysql the run the Spring boot application
+CMD /wait && java -cp app:app/lib/* be.businesstraining.ApplicationWithDb
